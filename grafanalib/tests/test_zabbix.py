@@ -1,10 +1,14 @@
 """Tests for Zabbix Datasource"""
 
-from io import StringIO
-
 import grafanalib.core as G
 import grafanalib.zabbix as Z
 from grafanalib import _gen
+
+import sys
+if sys.version_info[0] < 3:
+    from io import BytesIO as StringIO
+else:
+    from io import StringIO
 
 
 def test_serialization_zabbix_target():
@@ -23,10 +27,10 @@ def test_serialization_zabbix_target():
                 ]),
         ],
         id=1,
-        yAxes=[
+        yAxes=G.YAxes(
             G.YAxis(format=G.SHORT_FORMAT, label="CPU seconds / second"),
             G.YAxis(format=G.SHORT_FORMAT),
-        ],
+        ),
     )
     stream = StringIO()
     _gen.write_dashboard(graph, stream)

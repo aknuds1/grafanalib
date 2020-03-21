@@ -1,6 +1,6 @@
-==========
-grafanalib
-==========
+===============================
+Getting Started with grafanalib
+===============================
 
 .. image:: https://circleci.com/gh/weaveworks/grafanalib.svg?style=shield
     :target: https://circleci.com/gh/weaveworks/grafanalib
@@ -57,10 +57,10 @@ percentile latency:
               refId='E',
             ),
           ],
-          yAxes=[
+          yAxes=YAxes(
             YAxis(format=OPS_FORMAT),
             YAxis(format=SHORT_FORMAT),
-          ],
+          ),
           alert=Alert(
             name="Too many 500s on Nginx",
             message="More than 5 QPS of 500s on Nginx for 5 minutes",
@@ -102,7 +102,12 @@ percentile latency:
 
 There is a fair bit of repetition here, but once you figure out what works for
 your needs, you can factor that out.
-See `our Weave-specific customizations <grafanalib/weave.py>`_ for inspiration.
+See `our Weave-specific customizations
+<https://github.com/weaveworks/grafanalib/blob/master/grafanalib/weave.py>`_
+for inspiration.
+
+You can read the entire grafanlib documentation on `readthedocs.io
+<https://grafanalib.readthedocs.io/en/latest/>`_.
 
 Generating dashboards
 =====================
@@ -129,7 +134,7 @@ Support
 This library is in its very early stages. We'll probably make changes that
 break backwards compatibility, although we'll try hard not to.
 
-grafanalib works with Python 3.4 and 3.5.
+grafanalib works with Python 3.4, 3.5, 3.6 and 3.7.
 
 Developing
 ==========
@@ -141,16 +146,32 @@ If you're working on the project, and need to build from source, it's done as fo
   $ . ./.env/bin/activate
   $ pip install -e .
 
-`gfdatasource`
-==============
+Configuring Grafana Datasources
+===============================
 
-This module also provides a script and docker image which can configure grafana
-with new sources, or enable app plugins.
+This repo used to contain a program ``gfdatasource`` for configuring
+Grafana data sources, but it has been retired since Grafana now has a
+built-in way to do it.  See https://grafana.com/docs/administration/provisioning/#datasources
 
-The script answers the `--help` with full usage information, but basic
-invocation looks like this:
+Community
+=========
 
-.. code-block:: console
+We'd like you to join the ``grafanalib`` community! Talk to us on Slack (see the links),
+or join us for one of our next meetings):
 
-  $ <gfdatasource> --grafana-url http://grafana. datasource --data-source-url http://datasource
-  $ <gfdatasource> --grafana-url http://grafana. app --id my-plugin
+- Next meeting: 2020-03-20 15:00 UTC
+- https://zoom.us/j/405935052
+- `Meeting minutes and agenda
+  <https://docs.google.com/document/d/1JxrSszyPHYhNbJDWYZehRKv6AO4U-zIBhuNmYQVOIHo/edit>`_
+
+
+Getting Help
+------------
+
+If you have any questions about, feedback for or problems with ``grafanalib``:
+
+- Invite yourself to the `Weave Users Slack <https://slack.weave.works/>`_.
+- Ask a question on the `#grafanalib <https://weave-community.slack.com/messages/grafanalib/>`_ slack channel.
+- `File an issue <https://github.com/weaveworks/grafanalib/issues/new>`_.
+
+Your feedback is always welcome!

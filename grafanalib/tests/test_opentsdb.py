@@ -1,10 +1,17 @@
 """Tests for OpenTSDB datasource"""
 
-from io import StringIO
-
 import grafanalib.core as G
-import grafanalib.opentsdb as O
+from grafanalib.opentsdb import (
+    OpenTSDBFilter,
+    OpenTSDBTarget,
+)
 from grafanalib import _gen
+
+import sys
+if sys.version_info[0] < 3:
+    from io import BytesIO as StringIO
+else:
+    from io import StringIO
 
 
 def test_serialization_opentsdb_target():
@@ -13,19 +20,19 @@ def test_serialization_opentsdb_target():
         title="CPU Usage",
         dataSource="OpenTSDB data source",
         targets=[
-            O.OpenTSDBTarget(
+            OpenTSDBTarget(
                 metric='cpu',
                 alias='$tag_instance',
                 filters=[
-                    O.OpenTSDBFilter(value='*', tag='instance',
-                                     type='wildcard', groupBy=True),
+                    OpenTSDBFilter(value='*', tag='instance',
+                                   type='wildcard', groupBy=True),
                 ]),
         ],
         id=1,
-        yAxes=[
+        yAxes=G.YAxes(
             G.YAxis(format=G.SHORT_FORMAT, label="CPU seconds / second"),
             G.YAxis(format=G.SHORT_FORMAT),
-        ],
+        ),
     )
     stream = StringIO()
     _gen.write_dashboard(graph, stream)
